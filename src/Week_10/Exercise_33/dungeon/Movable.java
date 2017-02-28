@@ -7,11 +7,11 @@ package Week_10.Exercise_33.dungeon;
  */
 
 // Interface defines the objects in the game that are able to move, i.e. the player and the vampires
-public interface Movable {
+interface Movable {
 
     // This definition states that objects that are movable must implement a method that allows them to move on an xy grid
-    public void move(int x, int y);
+    void move(int x, int y);
 
-    // These objects must also be able to return their current position to the caller
-    public int[] returnCurrentPosition();
+    // movable objects must also be able to return their current position to the caller
+    Position returnCurrentPosition();
 }

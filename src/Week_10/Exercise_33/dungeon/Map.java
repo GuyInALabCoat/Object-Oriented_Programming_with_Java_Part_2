@@ -1,6 +1,5 @@
 package Week_10.Exercise_33.dungeon;
 
-import java.lang.reflect.Array;
 import java.util.*;
 
 /**
@@ -9,160 +8,82 @@ import java.util.*;
  * Object-Oriented Programming with Java Part 2 : 2017-02-18
  */
 
-public class Map {
-    private Player player;                  // the game map has 1 player
-    private java.util.Map<Vampire, int[]> vampires;          // a list of n vampires
-    private int[][] map;                    // and a 2-D array of given dimensions.
-    private boolean vampiresMove;
+
+// The map object implements the two dimensional dungeon map
+class Map {
+    public Movable[][] map = new Movable[10][10];   // and a 2-D array with the default size of a 10 x 10 grid
     private Random random;
 
-    public Map(int length, int height, int vampires, int moves, boolean vampiresMove){
+    Map(int length, int height, Player player){     // Constructor for the dungeon map, it receives as parameters a length, a height and a player object
 
-        map = new int[length][height];      // define the dimensions of the dungeon map
+        map = new Movable[length][height];          // define the dimensions of the dungeon map
 
-        this.vampires = new HashMap<Vampire, int[]>();
+        this.random = new Random();                 // set a new random number generator to be used later
 
-        this.random = new Random();
+        addPlayer(player);                          // add the player to the map
 
-        this.addVampires(vampires, length, height);
-
-        player = new Player(moves);
-
-        this.vampiresMove = vampiresMove;
     }
 
-    private int[] generateRandomPosition(int length, int height){
-        return new int[] {this.random.nextInt(length), this.random.nextInt(height)};
+    private void addPlayer(Player player){          // add the player to position 0,0 of the map array
+        this.map[player.returnCurrentPosition().getXPos()][player.returnCurrentPosition().getYPos()] = player;
     }
 
-    private void addVampires(int vampires, int length, int height){
+    // method to add n number of vampires to the map at random locations so long as the location is empty
+    HashMap<Vampire, Position> addVampires(int vampires, int length, int height){           // it takes as parameters the number of vampires to add, as well as the length and height of the map
+
+        HashMap<Vampire, Position> vampireHashMap = new HashMap<>();                        // it returns a HashMap of all of the positions of each of the added vampires.
+
         for (int i = 0; i < vampires; i++){         // add the specified number of vampires to the list
-            // since each vampire
-            boolean added = false;
+
+            boolean added = false;                  // set boolean to act as a switch to determine when a vampire has been added
             while(!added) {
-                Vampire temp = new Vampire(this.generateRandomPosition(length, height));
 
-                if (!(this.vampires.containsKey(temp) || temp.equals(new Vampire(new int[] {0,0})))){
-                    this.vampires.put(temp, temp.returnCurrentPosition());
-                    added = true;
-                }
-            }
-        }
-    }
+                int xPosition = this.random.nextInt(length);        // get a random x and y position
+                int yPosition = this.random.nextInt(height);
 
-    public void movePlayer(int x, int y){
+                if (this.map[xPosition][yPosition] == null){        // if the generated position in the array is empty
 
-        try {
+                    Vampire temp = new Vampire(xPosition, yPosition);   // create a vampire with those coordinates
 
-            validMove(this.player, x, y);
+                    this.map[xPosition][yPosition] = temp;              // add the vampire to the map at those coordinates
 
-            if (this.vampiresMove){
-                this.moveVampires();
-            }
+                    vampireHashMap.put(temp, temp.returnCurrentPosition());     // add the vampire and its location to the HashMap
 
-        } catch (IllegalStateException e){
-            throw new IllegalStateException();
-        }
-    }
+                    added = true;                                       // set the switch to true, else the loop would repeat until an available location was found.
 
-    private void moveVampires(){
-        for (Vampire vampire : this.vampires.keySet()) {
-
-            int x = 0;
-            int y = 0;
-
-            if(this.random.nextBoolean()){
-                x = this.random.nextInt(3) - 1;
-            } else {
-                y = this.random.nextInt(3) - 1;
-            }
-
-            validMove(vampire, x, y);
-
-        }
-    }
-
-    private void validMove(Movable movable, int x, int y){
-
-        int xpos = movable.returnCurrentPosition()[0];
-        int ypos = movable.returnCurrentPosition()[1];
-
-        if (x != 0 && (x + xpos) >= 0 && (x + xpos) <= this.map.length){
-            if (detectCollisions(movable, x, y)) {
-                if (movable.getClass() == Vampire.class){
-                    Vampire vampire = (Vampire) movable;
-                    this.vampires.put(vampire, new int[] {xpos + x, ypos + y});
-                } else {
-                    movable.move(x, y);
                 }
             }
         }
 
-        if (y != 0 && (y + ypos) >= 0 && (y + ypos) <= this.map[0].length){
-            if (detectCollisions(movable, x, y)) {
-                if (movable.getClass() == Vampire.class){
-                    Vampire vampire = (Vampire) movable;
-                    this.vampires.put(vampire, new int[] {xpos + x, ypos + y});
-                } else {
-                    movable.move(x, y);
-                }
-            }
-        }
+        return vampireHashMap;
     }
 
-    private boolean detectCollisions(Movable movable, int x, int y){
-
-        int deltaX = movable.returnCurrentPosition()[0] + x;
-        int deltaY = movable.returnCurrentPosition()[1] + y;
-
-        if (movable.getClass() == Player.class){
-            if (this.vampires.keySet().contains(new Vampire(new int[] {deltaX, deltaY}))){
-                this.vampires.keySet().remove(new Vampire(new int[] {deltaX, deltaY}));
-                return true;
-            }
-        } else {
-            if (this.vampires.keySet().contains(new Vampire(new int[]{deltaX, deltaY}))){
-                return false;
-            }
-        }
-
-        return true;
+    int getLength(){                            // return the length of the map
+        return this.map.length - 1;
     }
 
-    public void printMap(){
-        int xpos = this.player.returnCurrentPosition()[0];
-        int ypos = this.player.returnCurrentPosition()[1];
+    int getHeight(){                            // return the height of the map
+        return this.map[0].length - 1;
+    }
+
+    // print out the map with '@' representing the player, 'v' representing the vampires and '.' representing empty spaces
+    void printMap(){
 
         for(int i = 0; i < this.map[0].length; i++){
             for (int j = 0; j < this.map.length; j++){
 
-                if (this.vampires.containsKey(new Vampire(new int[] {j, i}))){
-                    System.out.print('v');
-                } else if (j == xpos && i == ypos){
-                    System.out.print(this.player.toString());
-                } else {
+
+                if (this.map[j][i] == null) {
                     System.out.print(".");
+                } else if (this.map[j][i].getClass() == Vampire.class){
+                    System.out.print('v');
+                } else if (this.map[j][i].getClass() == Player.class){
+                    System.out.print("@");
                 }
             }
-            System.out.println("");
+            System.out.println("");                     // move to a new line
         }
+
+        System.out.println("");                         // print a line after the map
     }
-
-    public static void main(String[] args){
-        Map dungeonMap = new Map(15, 5, 10, 6, true);
-
-        dungeonMap.printMap();
-
-        dungeonMap.movePlayer(0, 1);
-
-        dungeonMap.printMap();
-
-        dungeonMap.movePlayer(1, 0);
-
-        dungeonMap.printMap();
-
-        // TODO: figure out how to get vampires to move and not disappear from the map. Consider deleting Position.java
-    }
-
-
 }

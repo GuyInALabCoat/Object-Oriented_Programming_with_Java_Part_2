@@ -6,35 +6,40 @@ package Week_10.Exercise_33.dungeon;
  * Object-Oriented Programming with Java Part 2 : 2017-02-18
  */
 
-public class Player implements Movable{
-    private int[] position;                 // the player's position is defined as a 2 digit array containing an x and y coordinate
+class Player implements Movable{
+    private Position position;              // Tuple position object to define the coordinates of the player
     private int lampBattery;                // the lamp battery defines the number of moves the player has left
 
-    public Player(int lampBattery){
-        this.position = new int[] {0,0};    // the player starts the game in position 0.0
+    Player(int lampBattery){                // The player starts at position 0,0 of the map
+        position = new Position(0,0);
         this.lampBattery = lampBattery;
     }
 
     public void move(int x, int y){         // while the lamp battery is not 0 the player is able to move
         if (this.lampBattery > 0) {         // Since the player object is not aware of the dimensions of the dungeon as a whole,
-            this.position[0] += x;          // the player is not responsible for ensuring that the passed movement is valid (ie not off the map)
-            this.position[1] += y;          // that responsibly is delegated to the method caller (ie the map)
+            this.position.x += x;            // the player is not responsible for ensuring that the passed movement is valid (ie not off the map)
+            this.position.y += y;            // that responsibly is delegated to the method caller (ie the map)
+            decreaseBattery();
         } else {                            // when the lamp battery runs out, the method throws an exception that will be caught by the method caller signaling the end of the game
             throw new IllegalStateException();
         }
     }
 
-    public void decreaseBattery(){
+    private void decreaseBattery(){
         this.lampBattery--;
     }
 
-    public int[] returnCurrentPosition(){   // return the two digit array of the current position
+    public Position returnCurrentPosition(){    // implement method of interface that returns the player's current position
         return this.position;
     }
 
+    int getLampBattery(){
+        return this.lampBattery;
+    }
+
     @Override
-    public String toString(){               // The player will be represented by a '@' symbol on the map
-        return "@";
+    public String toString(){
+        return "@ " + this.returnCurrentPosition().getXPos() + " " + this.returnCurrentPosition().getYPos();
     }
 
 }

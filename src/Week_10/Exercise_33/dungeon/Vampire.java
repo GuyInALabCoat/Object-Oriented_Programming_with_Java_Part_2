@@ -6,24 +6,29 @@ package Week_10.Exercise_33.dungeon;
  * Object-Oriented Programming with Java Part 2 : 2017-02-18
  */
 
-public class Vampire implements Movable{
-    private int[] position = new int[2];
+class Vampire implements Movable{
+    private Position position;                  // Binary Tuple object to record the vampire's current position
 
-    public Vampire(int position[]){             // the vampires like the player are represented by a two digit array
-        this.position = position;               // however, the position of the vampires is randomly generated at the beginning of the game
+    Vampire(int xPosition, int yPosition){      // Constructor to define a vampire's starting position
+        position = new Position(xPosition, yPosition);
     }
 
     public void move(int x, int y){             // Similarly, like the player, the move method assumes that the passed move is valid and within the bounds of the larger grid
-        this.position[0] += x;                  // the position of the vampire is updated by changing the values within the array. 0 is x and 1 is y.
-        this.position[1] += y;
+        this.position.x += x;
+        this.position.y += y;
     }
 
-    public int[] returnCurrentPosition(){       // return the current xy coordinates of the vampire
+    public Position returnCurrentPosition(){    // implement the method of the interface to return the vampire's current position
         return this.position;
     }
 
     @Override
-    public boolean equals(Object object){
+    public String toString(){
+        return "v " + this.returnCurrentPosition().getXPos() + " " + this.returnCurrentPosition().getYPos();
+    }
+
+    @Override
+    public boolean equals(Object object){       // New equals method that compares two vampires and returns true if they are on the same xy coordinate
         if (this == object){
             return true;
         }
@@ -34,16 +39,16 @@ public class Vampire implements Movable{
 
         final Vampire vampire = (Vampire) object;
 
-        return(this.position[0] == vampire.returnCurrentPosition()[0] && this.position[1] == vampire.returnCurrentPosition()[1]);
+        return(this.position.getXPos() == vampire.position.getXPos() && this.position.getYPos() == vampire.position.getYPos());
     }
 
     @Override
-    public int hashCode(){
+    public int hashCode(){                      // New hashcode method that returns an integer value of the vampire's position
         int hash = 29;
 
-        hash = 11 * hash + this.position[0];
+        hash = 11 * hash + this.position.getXPos();
 
-        hash = 31 * hash + this.position[1];
+        hash = 31 * hash + this.position.getYPos();
 
         return hash;
 

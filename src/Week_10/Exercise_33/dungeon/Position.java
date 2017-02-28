@@ -6,26 +6,21 @@ package Week_10.Exercise_33.dungeon;
  * Object-Oriented Programming with Java Part 2 : 2017-02-19
  */
 
-public class Position<X, Y> {
-    public X x;
-    public Y y;
+// Class defines a binary tuple that corresponds to an object's xy position.
+class Position {
+    int x;
+    int y;
 
-    public Position(X x, Y y){
+    Position(int x, int y){             // Constructor to set the initial xy position
         this.x = x;
         this.y = y;
     }
 
-    public X getXPos(){
+    int getXPos(){                      // return the object's current x position
         return this.x;
     }
 
-    public Y getYPos(){
+    int getYPos(){                      // return the object's current y position
         return this.y;
-    }
-
-    public static void main(String[] args){
-        Position position = new Position<>(3, 4);
-
-        System.out.println(position.getXPos() + ", " + position.getYPos());
     }
 }
