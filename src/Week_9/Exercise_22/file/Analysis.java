@@ -54,7 +54,7 @@ public class Analysis {
 
     public static void main(String[] args){
 
-        File file = new File("src/Exercise_22/file/testfile.txt");
+        File file = new File("src/Week_9/Exercise_22/file/testfile.txt");
         Analysis analysis = new Analysis(file);
         System.out.println("Lines: " + analysis.lines());
         System.out.println("Characters: " + analysis.characters());
