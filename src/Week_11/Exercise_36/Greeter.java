@@ -1,4 +1,4 @@
-package Week_11;
+package Week_11.Exercise_36;
 
 import javax.swing.*;
 import java.awt.*;
