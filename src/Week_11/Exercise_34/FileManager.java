@@ -30,6 +30,8 @@ public class FileManager {
     public void save(String file, String text) throws Exception{
         FileWriter writer = new FileWriter(file);
         writer.write(text);
+
+        writer.close();
     }
 
     public void save(String file, ArrayList<String> texts) throws Exception{
@@ -38,6 +40,8 @@ public class FileManager {
         for (String line : texts) {
             writer.write(line);
         }
+
+        writer.close();
     }
 
     public static void main(String[] args) throws FileNotFoundException, IOException{
