@@ -2,6 +2,8 @@ package Week_11.Exercise_35.dictionary;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -16,14 +18,14 @@ import java.util.Scanner;
 //
 public class MindfulDictionary {
     private Map<String, String> dictionary;
-    private File fileToRead;
+    private File file;
 
     public MindfulDictionary(){                     // create empty dictionary HashMap
         dictionary = new HashMap<String, String>();
     }
 
     public MindfulDictionary(String file){
-        fileToRead = new File(file);
+        this.file = new File(file);
 
         dictionary = new HashMap<String, String>();
     }
@@ -75,7 +77,7 @@ public class MindfulDictionary {
 
         try {
 
-            Scanner fileReader = new Scanner(this.fileToRead);
+            Scanner fileReader = new Scanner(this.file);
 
             while (fileReader.hasNextLine()){
                 String line = fileReader.nextLine();
@@ -85,6 +87,27 @@ public class MindfulDictionary {
             }
 
         } catch (FileNotFoundException e){
+            return false;
+        }
+
+        return true;
+    }
+
+    // when called, the dictionary contents are written into the file created by constructor. It returns false if the file can't be saved.
+    public boolean save(){                                      // The new dictionary writes over the existing file
+
+        try {
+            FileWriter writer = new FileWriter(this.file);
+
+            for (Map.Entry<String, String> entry : this.dictionary.entrySet()) {
+                writer.write(entry.getKey());
+                writer.write(":");
+                writer.write(entry.getValue() + "\n");
+            }
+
+            writer.close();
+
+        } catch (IOException e){
             return false;
         }
 
@@ -120,12 +143,26 @@ public class MindfulDictionary {
         System.out.println(dict.translate("bananni"));
         System.out.println(dict.translate("ohjelmointi"));*/
 
-        // Exercise 35.3 Loading A File
+        /*// Exercise 35.3 Loading A File
         MindfulDictionary dict = new MindfulDictionary("src/Week_11/Exercise_35/dictionary/words");
         dict.load();
 
         System.out.println(dict.translate("apina"));
         System.out.println(dict.translate("ohjelmointi"));
+        System.out.println(dict.translate("alla oleva"));*/
+
+        // Exercise 35.4 Saving Data
+        MindfulDictionary dict = new MindfulDictionary("src/Week_11/Exercise_35/dictionary/words");
+        dict.load();
+
+        System.out.println(dict.translate("apina"));
         System.out.println(dict.translate("alla oleva"));
+        System.out.println(dict.translate("olut"));
+
+        dict.add("bananni", "banana");
+        dict.add("ohjelmointi", "programming");
+        dict.add("tietokone", "computer");
+
+        dict.save();
     }
 }
