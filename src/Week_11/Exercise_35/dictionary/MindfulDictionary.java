@@ -1,6 +1,7 @@
 package Week_11.Exercise_35.dictionary;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -42,9 +43,27 @@ public class MindfulDictionary {
         return null;
     }
 
-    public static void main(String[] args){
-        MindfulDictionary dict = new MindfulDictionary();
+    // Removes a word from the dictionary given either the word or its translation
+    public void remove(String word){
 
+        Iterator<Map.Entry<String, String>> iterator = this.dictionary.entrySet().iterator();   // creates an iterator instance to iterate over the HashMap entries
+
+        while(iterator.hasNext()) {
+
+            Map.Entry<String, String> entry = iterator.next();  // get the next HashMap entry
+            if (entry.getKey().equals(word)) {                  // if the word matches the key remove the word from the dictionary
+                iterator.remove();
+
+            } else if (entry.getValue().equals(word)) {         // if the word matches the translation remove the word from the dictionary
+                iterator.remove();
+            }
+        }
+    }
+
+    public static void main(String[] args){
+        /*MindfulDictionary dict = new MindfulDictionary();
+
+        // Exercise 35.1 Forgetful Basic Functionality
         dict.add("apina", "monkey");
         dict.add("banaani", "banana");
         dict.add("apina", "apfe");
@@ -52,6 +71,21 @@ public class MindfulDictionary {
         System.out.println(dict.translate("apina"));
         System.out.println(dict.translate("monkey"));
         System.out.println(dict.translate("programming"));
+        System.out.println(dict.translate("banana"));*/
+
+        // Exercise 35.2 Removing Words
+        MindfulDictionary dict = new MindfulDictionary();
+        dict.add("apina", "monkey");
+        dict.add("banaani", "banana");
+        dict.add("ohjelmointi", "programming");
+        dict.remove("apina");
+        dict.remove("banana");
+
+        System.out.println(dict.translate("apina"));
+        System.out.println(dict.translate("monkey"));
         System.out.println(dict.translate("banana"));
+        System.out.println(dict.translate("bananni"));
+        System.out.println(dict.translate("ohjelmointi"));
+
     }
 }
