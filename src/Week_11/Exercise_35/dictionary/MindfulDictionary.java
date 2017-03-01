@@ -1,8 +1,11 @@
 package Week_11.Exercise_35.dictionary;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Scanner;
 
 /**
  * Exercise 35: Two-Direction Dictionary
@@ -13,8 +16,15 @@ import java.util.Map;
 //
 public class MindfulDictionary {
     private Map<String, String> dictionary;
+    private File fileToRead;
 
     public MindfulDictionary(){                     // create empty dictionary HashMap
+        dictionary = new HashMap<String, String>();
+    }
+
+    public MindfulDictionary(String file){
+        fileToRead = new File(file);
+
         dictionary = new HashMap<String, String>();
     }
 
@@ -60,6 +70,29 @@ public class MindfulDictionary {
         }
     }
 
+    // loads a file, whose name was given to the constructor. If opening or reading the file doesn't work it returns false. Else it returns true
+    public boolean load(){
+
+        try {
+
+            Scanner fileReader = new Scanner(this.fileToRead);
+
+            while (fileReader.hasNextLine()){
+                String line = fileReader.nextLine();
+                String[] parts = line.split(":");               // each line is split at :
+
+                this.add(parts[0], parts[1]);                   // add the word before the : and the translation after to the dictionary
+            }
+
+        } catch (FileNotFoundException e){
+            return false;
+        }
+
+        return true;
+    }
+
+
+
     public static void main(String[] args){
         /*MindfulDictionary dict = new MindfulDictionary();
 
@@ -73,7 +106,7 @@ public class MindfulDictionary {
         System.out.println(dict.translate("programming"));
         System.out.println(dict.translate("banana"));*/
 
-        // Exercise 35.2 Removing Words
+        /*// Exercise 35.2 Removing Words
         MindfulDictionary dict = new MindfulDictionary();
         dict.add("apina", "monkey");
         dict.add("banaani", "banana");
@@ -85,7 +118,14 @@ public class MindfulDictionary {
         System.out.println(dict.translate("monkey"));
         System.out.println(dict.translate("banana"));
         System.out.println(dict.translate("bananni"));
-        System.out.println(dict.translate("ohjelmointi"));
+        System.out.println(dict.translate("ohjelmointi"));*/
 
+        // Exercise 35.3 Loading A File
+        MindfulDictionary dict = new MindfulDictionary("src/Week_11/Exercise_35/dictionary/words");
+        dict.load();
+
+        System.out.println(dict.translate("apina"));
+        System.out.println(dict.translate("ohjelmointi"));
+        System.out.println(dict.translate("alla oleva"));
     }
 }
