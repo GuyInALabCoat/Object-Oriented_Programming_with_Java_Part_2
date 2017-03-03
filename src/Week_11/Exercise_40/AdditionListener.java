@@ -14,18 +14,35 @@ import java.awt.event.ActionEvent;
 class AdditionListener implements ActionListener{
     private JTextField input;
     private JTextField output;
+    private JButton clearButton;
 
-    AdditionListener(JTextField input, JTextField output){
+    AdditionListener(JTextField input, JTextField output, JButton clearButton){
         this.input = input;
         this.output = output;
+        this.clearButton = clearButton;
     }
 
     @Override
     public void actionPerformed(ActionEvent event){
 
-        int input = Integer.parseInt(this.input.getText());
-        int output = Integer.parseInt(this.output.getText());
 
-        this.output.setText(Integer.toString(input + output));
+        try {
+            int input = Integer.parseInt(this.input.getText());
+
+            int output = Integer.parseInt(this.output.getText());
+
+            this.output.setText(Integer.toString(input + output));
+
+            this.input.setText("");
+
+            if (this.output.getText().equals("0")){
+                this.clearButton.setEnabled(false);         // disable the clear button if the output equals 0
+            } else {
+                this.clearButton.setEnabled(true);          // else enable it
+            }
+
+        } catch (Exception e){                              // if the input is not a number, clear the input
+            this.input.setText("");
+        }
     }
 }

@@ -10,12 +10,11 @@ import java.awt.*;
 
 // User interface that implements an addition and subtraction calculator
 public class GraphicCalculator implements Runnable{
-    private JFrame frame;
 
     // Standard JFrame setup
     @Override
     public void run(){
-        frame = new JFrame("Calculator");
+        JFrame frame = new JFrame("Calculator");
         frame.setPreferredSize(new Dimension(300, 200));
 
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -25,7 +24,6 @@ public class GraphicCalculator implements Runnable{
         frame.pack();
 
         frame.setVisible(true);
-
     }
 
     // Set up the window layout such that there is a text area for the output, input and a row of buttons on the bottom
@@ -46,20 +44,22 @@ public class GraphicCalculator implements Runnable{
     private JPanel getFrame(JTextField input, JTextField output){
         JPanel panel = new JPanel(new GridLayout(1, 3));
 
+        // Button that will set the output to 0
+        JButton clearButton = new JButton("C");
+        clearButton.setEnabled(false);              // while the output equals 0, the button is disabled
+        ClearListener clearListener = new ClearListener(input, output);
+        clearButton.addActionListener(clearListener);
+
         // Button that will add the input to the output
         JButton addButton = new JButton("+");
-        AdditionListener addListener = new AdditionListener(input, output);
+        AdditionListener addListener = new AdditionListener(input, output, clearButton);
         addButton.addActionListener(addListener);
 
         // Button that will remove the input from the output
         JButton subButton = new JButton("-");
-        SubtractionListener subListener = new SubtractionListener(input, output);
+        SubtractionListener subListener = new SubtractionListener(input, output, clearButton);
         subButton.addActionListener(subListener);
 
-        // Button that will set the output to 0
-        JButton clearButton = new JButton("C");
-        ClearListener clearListener = new ClearListener(output);
-        clearButton.addActionListener(clearListener);
 
         panel.add(addButton);
         panel.add(subButton);
@@ -69,7 +69,6 @@ public class GraphicCalculator implements Runnable{
     }
 
     public static void main(String[] args){
-
         GraphicCalculator graphicCalc = new GraphicCalculator();
         SwingUtilities.invokeLater(graphicCalc);
     }
