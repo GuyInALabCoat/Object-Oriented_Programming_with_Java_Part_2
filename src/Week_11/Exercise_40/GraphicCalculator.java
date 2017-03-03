@@ -29,25 +29,41 @@ public class GraphicCalculator implements Runnable{
     }
 
     // Set up the window layout such that there is a text area for the output, input and a row of buttons on the bottom
-    public void createComponents(Container container){
+    private void createComponents(Container container){
         container.setLayout(new GridLayout(3, 1));
 
-        JTextField textOutput = new JTextField();
-        JTextField textInput = new JTextField("0");
+        JTextField textOutput = new JTextField("0");
+        JTextField textInput = new JTextField();
 
         textOutput.setEnabled(false);   // This text field is disabled for user input and only displays the output
 
         container.add(textOutput);
         container.add(textInput);
-        container.add(getFrame());
+        container.add(getFrame(textInput, textOutput));
     }
 
     // add the row of buttons to the inner JPanel which will be added to the larger container
-    public JPanel getFrame(){
+    private JPanel getFrame(JTextField input, JTextField output){
         JPanel panel = new JPanel(new GridLayout(1, 3));
-        panel.add(new JButton("+"));
-        panel.add(new JButton("-"));
-        panel.add(new JButton("C"));
+
+        // Button that will add the input to the output
+        JButton addButton = new JButton("+");
+        AdditionListener addListener = new AdditionListener(input, output);
+        addButton.addActionListener(addListener);
+
+        // Button that will remove the input from the output
+        JButton subButton = new JButton("-");
+        SubtractionListener subListener = new SubtractionListener(input, output);
+        subButton.addActionListener(subListener);
+
+        // Button that will set the output to 0
+        JButton clearButton = new JButton("C");
+        ClearListener clearListener = new ClearListener(output);
+        clearButton.addActionListener(clearListener);
+
+        panel.add(addButton);
+        panel.add(subButton);
+        panel.add(clearButton);
         return panel;
 
     }
