@@ -9,10 +9,10 @@ import java.awt.*;
  */
 
 // An instance of a subclass of Figure that draws a circle at the position defined in its constructor
-public class Circle extends Figure{
+class Circle extends Figure{
     private int diameter;
 
-    public Circle(int x, int y, int diameter){
+    Circle(int x, int y, int diameter){
 
         super(x, y);
 

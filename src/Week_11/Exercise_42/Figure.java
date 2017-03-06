@@ -9,26 +9,26 @@ import java.awt.*;
  */
 
 // abstract class that defines figures which must have an x and y components, be able to move and draw themselves
-public abstract class Figure {
+abstract class Figure {
 
     private int x;
     private int y;
 
-    public Figure(int x, int y){
+    Figure(int x, int y){
         this.x = x;
         this.y = y;
     }
 
-    public void move(int dx, int dy){
+    void move(int dx, int dy){
         this.x += dx;
         this.y += dy;
     }
 
-    public int getX(){
+    int getX(){
         return this.x;
     }
 
-    public int getY(){
+    int getY(){
         return this.y;
     }
 
