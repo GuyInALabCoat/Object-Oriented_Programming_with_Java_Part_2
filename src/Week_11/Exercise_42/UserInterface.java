@@ -36,6 +36,8 @@ public class UserInterface implements Runnable{
     private void createComponents(Container container){
         DrawingBoard drawingBoard = new DrawingBoard(this.figure);
         container.add(drawingBoard);
+
+        this.frame.addKeyListener(new KeyboardListener(drawingBoard, this.figure));
     }
 
     public static void main(String[] args){
