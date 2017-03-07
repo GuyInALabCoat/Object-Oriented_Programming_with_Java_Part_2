@@ -5,11 +5,16 @@ import gameoflife.Simulator;
 public class Main {
 
     public static void main(String[] args) {
-        PersonalBoard board = new PersonalBoard(3, 3);
+        PersonalBoard board = new PersonalBoard(200, 200);
 
-        board.initiateRandomCells(0.0);
+        board.initiateRandomCells(0.7);
 
-        GameOfLifeTester tester = new GameOfLifeTester(board);
-        tester.play();
+        Simulator simulator = new Simulator(board);
+        simulator.simulate();
+
+        /*GameOfLifeTester tester = new GameOfLifeTester(board);
+        tester.play();*/
     }
+
+
 }

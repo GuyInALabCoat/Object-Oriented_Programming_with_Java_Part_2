@@ -40,7 +40,7 @@ public class PersonalBoard extends GameOfLifeBoard{
     }
 
     @Override
-    public void initiateRandomCells(double v) {
+    public void initiateRandomCells(double probabilityForEachCell) {
         Random random = new Random();
 
         boolean[][] board = getBoard();
@@ -48,7 +48,7 @@ public class PersonalBoard extends GameOfLifeBoard{
         for (int y = 0; y < getHeight(); y++){
             for (int x = 0; x < getWidth(); x++){
 
-                if (random.nextDouble() <= v){
+                if (random.nextDouble() <= probabilityForEachCell){
                     board[x][y] = true;
                 }
             }
@@ -56,12 +56,33 @@ public class PersonalBoard extends GameOfLifeBoard{
     }
 
     @Override
-    public int getNumberOfLivingNeighbours(int i, int i1) {
-        return 0;
+    public int getNumberOfLivingNeighbours(int x, int y) {
+        int numberLiving = 0;
+
+        for (int j = y - 1; j <= y + 1; j++){
+            for (int i = x - 1; i <= x + 1; i++){
+
+                if ((i != x || j != y) && isAlive(i, j)){
+                    numberLiving++;
+                }
+            }
+        }
+
+        return numberLiving;
     }
 
     @Override
-    public void manageCell(int i, int i1, int i2) {
+    public void manageCell(int x, int y, int livingNeighbours) {
+        boolean cellAlive = isAlive(x, y);
 
+        if (cellAlive && livingNeighbours < 2){
+            turnToDead(x, y);
+        } else if (cellAlive && livingNeighbours <= 3){
+
+        } else if (cellAlive && livingNeighbours > 3){
+            turnToDead(x, y);
+        } else if (!cellAlive && livingNeighbours == 3){
+            turnToLiving(x, y);
+        }
     }
 }
