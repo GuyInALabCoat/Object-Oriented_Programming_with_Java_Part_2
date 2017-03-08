@@ -1,5 +1,8 @@
 package Week_12.Exercise_46.reference.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Exercise 46: Film Reference
  *
@@ -8,9 +11,11 @@ package Week_12.Exercise_46.reference.domain;
 
 public class Film {
     private String name;
+    private List<Rating> ratingList;
 
     public Film(String name){
         this.name = name;
+        this.ratingList = new ArrayList<>();
     }
 
     public String getName(){
@@ -39,6 +44,7 @@ public class Film {
     }
 
     public static void main(String[] args){
+
         Rating given = Rating.GOOD;
         System.out.println("Rating " + given + ", value " + given.getValue());
         given = Rating.NEUTRAL;
