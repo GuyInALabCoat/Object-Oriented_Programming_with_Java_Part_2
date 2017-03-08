@@ -15,8 +15,14 @@ public class Main {
         return string.matches("mon|tue|wed|thu|fri|sat|sun");
     }
 
+    // returns true if the parameter string contains only vowels
     public static boolean allVowels(String string){
         return string.matches("[aeiou]*");
+    }
+
+    // returns true if the parameter string conforms with clock time in the from hh:mm:ss
+    public static boolean clockTime(String string){
+        return string.matches("(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]");
     }
 
     public static void main(String[] args){
@@ -30,7 +36,7 @@ public class Main {
 
             if (input.equals("")){
                 break;
-            }else if (allVowels(input)){
+            }else if (clockTime(input)){
                 System.out.println("The form is fine.");
             } else {
                 System.out.println("The form is wrong");
