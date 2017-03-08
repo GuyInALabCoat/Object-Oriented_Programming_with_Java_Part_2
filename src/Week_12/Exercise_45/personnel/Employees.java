@@ -1,5 +1,6 @@
 package Week_12.Exercise_45.personnel;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -13,7 +14,7 @@ public class Employees {
     private List<Person> personnelList;
 
     public Employees(){
-
+        this.personnelList = new ArrayList<>();
     }
 
     public void add(Person person){
@@ -36,9 +37,37 @@ public class Employees {
         Iterator<Person> iterator = this.personnelList.iterator();
 
         while(iterator.hasNext()){
-            if(iterator.next().getEducation().equals(education)){
-                System.out.println(iterator.next());
+
+            Person person = iterator.next();
+
+            if (person.getEducation().equals(education)){
+                System.out.println(person);
             }
         }
+    }
+
+    public void fire(Education education){
+        Iterator<Person> iterator = this.personnelList.iterator();
+
+        while(iterator.hasNext()){
+            if(iterator.next().getEducation().equals(education)){
+                iterator.remove();
+            }
+        }
+    }
+
+    public static void main(String[] args){
+        Employees university = new Employees();
+        university.add(new Person("Matti", Education.D));
+        university.add(new Person("Pekka", Education.GRAD));
+        university.add(new Person("Arto", Education.D));
+
+        university.print();
+
+        university.fire(Education.GRAD);
+
+        System.out.println("==");
+
+        university.print();
     }
 }
