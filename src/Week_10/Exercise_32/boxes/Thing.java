@@ -1,4 +1,4 @@
-package Exercise_32.boxes;
+package Week_10.Exercise_32.boxes;
 
 import java.util.ArrayList;
 import java.util.Collections;

@@ -1,4 +1,4 @@
-package Exercise_31.farmsimulator;
+package Week_10.Exercise_31.farmsimulator;
 
 import static java.lang.System.exit;
 

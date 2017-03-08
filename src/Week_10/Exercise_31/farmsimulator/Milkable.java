@@ -1,4 +1,4 @@
-package Exercise_31.farmsimulator;
+package Week_10.Exercise_31.farmsimulator;
 
 /**
  * Exercise 31: Farm Simulator
