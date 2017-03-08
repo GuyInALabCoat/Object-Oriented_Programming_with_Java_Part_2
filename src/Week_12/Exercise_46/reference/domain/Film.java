@@ -37,4 +37,11 @@ public class Film {
     public int hashCode() {
         return getName() != null ? getName().hashCode() : 0;
     }
+
+    public static void main(String[] args){
+        Rating given = Rating.GOOD;
+        System.out.println("Rating " + given + ", value " + given.getValue());
+        given = Rating.NEUTRAL;
+        System.out.println("Rating " + given + ", value " + given.getValue());
+    }
 }
