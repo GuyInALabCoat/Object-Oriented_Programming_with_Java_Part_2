@@ -15,6 +15,10 @@ public class Main {
         return string.matches("mon|tue|wed|thu|fri|sat|sun");
     }
 
+    public static boolean allVowels(String string){
+        return string.matches("[aeiou]*");
+    }
+
     public static void main(String[] args){
         Scanner reader = new Scanner(System.in);
 
@@ -26,7 +30,7 @@ public class Main {
 
             if (input.equals("")){
                 break;
-            }else if (isAWeekDay(input)){
+            }else if (allVowels(input)){
                 System.out.println("The form is fine.");
             } else {
                 System.out.println("The form is wrong");
