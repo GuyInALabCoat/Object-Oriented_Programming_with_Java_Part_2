@@ -68,8 +68,12 @@ public class RatingRegister {
     }
 
     // return the rating that a given person gave the specified film
-    public Rating getRatings(Person person, Film film){
-        return this.personFilmMap.get(person).get(film).get(0);
+    public Rating getRating(Person person, Film film){
+        try {
+            return this.personFilmMap.get(person).get(film).get(0);
+        } catch (Exception e){
+            return Rating.NOT_WATCHED;
+        }
     }
 
     // returns a map of films plus their ratings
