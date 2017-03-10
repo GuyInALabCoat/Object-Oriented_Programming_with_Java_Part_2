@@ -102,18 +102,23 @@ public class RatingRegister {
     // returns a map of a person's personal ratings for each film that they've seen
     public Map<Film, Rating> getPersonalRatings(Person person){
 
-        Map<Film, Rating> tempMap = new HashMap<Film, Rating>();
+        try {
+            Map<Film, Rating> tempMap = new HashMap<Film, Rating>();
 
-        Iterator<Map.Entry<Film, List<Rating>>> iterator = this.personFilmMap.get(person).entrySet().iterator();    // iterate through the HashMap associated with a person
+            Iterator<Map.Entry<Film, List<Rating>>> iterator = this.personFilmMap.get(person).entrySet().iterator();    // iterate through the HashMap associated with a person
 
-        while(iterator.hasNext()){
+            while (iterator.hasNext()) {
 
-            Map.Entry<Film, List<Rating>> entry = iterator.next();          // get the next film and list of ratings.
+                Map.Entry<Film, List<Rating>> entry = iterator.next();          // get the next film and list of ratings.
 
-            tempMap.put(entry.getKey(), entry.getValue().get(0));           // since each named person can only rate a film once, their ratings list is of length 1, so add the first entry to the temporary map
+                tempMap.put(entry.getKey(), entry.getValue().get(0));           // since each named person can only rate a film once, their ratings list is of length 1, so add the first entry to the temporary map
+            }
+
+            return tempMap;     // return the temporary map
+
+        } catch (NullPointerException e){
+            return null;
         }
-
-        return tempMap;     // return the temporary map
 
     }
 
