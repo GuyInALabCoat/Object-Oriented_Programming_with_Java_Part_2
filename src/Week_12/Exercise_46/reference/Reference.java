@@ -1,6 +1,7 @@
 package Week_12.Exercise_46.reference;
 
 import Week_12.Exercise_46.reference.comparator.FilmComparator;
+import Week_12.Exercise_46.reference.comparator.PersonComparator;
 import Week_12.Exercise_46.reference.domain.Film;
 import Week_12.Exercise_46.reference.domain.Person;
 import Week_12.Exercise_46.reference.domain.Rating;
@@ -88,9 +89,9 @@ public class Reference {
     }
 
     public Person findMostSimilarPerson(Person person){
-        Person mostSimilarPerson = null;
 
-        int maxSimilarity = 0;
+        Map<Person, Integer> similarPeople = new HashMap<>();
+        List<Person> similarReviewers = new ArrayList<>();
 
         for (Person reviewer : this.ratings.reviewers()) {
 
@@ -110,19 +111,22 @@ public class Reference {
                     }
                 }
 
-                if (maxSimilarity < similarity){
-                    mostSimilarPerson = reviewer;
+                if (appropriatePerson(person, reviewer)) {
+                    similarPeople.put(reviewer, similarity);
+                    similarReviewers.add(reviewer);
                 }
             }
         }
 
-        if (mostSimilarPerson != null && appropriatePerson(person, mostSimilarPerson)){
-            return mostSimilarPerson;
-        } else {
+        try {
+
+            Collections.sort(similarReviewers, new PersonComparator(similarPeople));
+
+            return similarReviewers.get(0);
+            
+        } catch (Exception e){
             return null;
         }
-
-
     }
 
     private boolean appropriatePerson(Person person, Person reviewer){

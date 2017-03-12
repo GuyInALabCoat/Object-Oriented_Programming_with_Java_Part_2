@@ -52,7 +52,7 @@ public class RatingRegister {
     }
 
     // return all the ratings for a given film, both by listed people and anonymous reviewers
-    public List<Rating> getRatings(Film film) {
+    List<Rating> getRatings(Film film) {
         List<Rating> temp = new ArrayList<Rating>();    // create a temporary list to hold the ratings
 
         Iterator<Map<Film, List<Rating>>> iterator = this.personFilmMap.values().iterator();    // iterate through each nested HashMaps
@@ -68,7 +68,7 @@ public class RatingRegister {
     }
 
     // return the rating that a given person gave the specified film
-    public Rating getRating(Person person, Film film){
+    Rating getRating(Person person, Film film){
         try {
             return this.personFilmMap.get(person).get(film).get(0);
         } catch (Exception e){
@@ -100,7 +100,7 @@ public class RatingRegister {
     }
 
     // returns a map of a person's personal ratings for each film that they've seen
-    public Map<Film, Rating> getPersonalRatings(Person person){
+    Map<Film, Rating> getPersonalRatings(Person person){
 
         try {
             Map<Film, Rating> tempMap = new HashMap<Film, Rating>();
@@ -123,7 +123,7 @@ public class RatingRegister {
     }
 
     // returns a list of people who have evaluated the films without all of the anonymous reviewers
-    public List<Person> reviewers(){
+    List<Person> reviewers(){
         List<Person> tempList = new ArrayList<>(this.personFilmMap.keySet());
         tempList.remove(null);
         return tempList;

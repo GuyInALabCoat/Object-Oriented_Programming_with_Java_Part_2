@@ -16,7 +16,7 @@ public enum Rating {
 
     private int rating;
 
-    private Rating(int rating){
+    Rating(int rating){
         this.rating = rating;
     }
 
