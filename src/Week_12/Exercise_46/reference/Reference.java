@@ -123,7 +123,7 @@ public class Reference {
             Collections.sort(similarReviewers, new PersonComparator(similarPeople));
 
             return similarReviewers.get(0);
-            
+
         } catch (Exception e){
             return null;
         }
